@@ -19,7 +19,7 @@ limit = 0
 while( limit < 9 ):
   pic = makePicture(path + "\\" + image_paths[limit])
   pics.append(pic)
-  show(pic)
+  #show(pic)
   limit+=1
 print(pics)
 
