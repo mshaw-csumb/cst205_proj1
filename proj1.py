@@ -1,5 +1,7 @@
 #must use getPixel(Picture,xpos,ypos) method, will help much
-
+#for each point on the picture, take the 9 pixels from each picture, sort them, then take the median
+#the pixels of the guy will always be an outlier, and then the median of those 9 pixels will be the accurate
+#pixel to put into the new picture so that the guy is erased from the frame
 import os
 #import os.path
 path = pickAFolder()
