@@ -1,7 +1,7 @@
 import os.path
-path = "C:\Users\Markus\School\CST 205\projects\proj1\cst205_proj1\Project1Images"
+path = pickAFolder()
 
-numfiles = len([f for f in os.listdir(path)
+numfiles = len([f for f in os.listdir(path)#find reference link from stack overflow
                 if os.path.isfile(os.path.join(path,f))])
 print(numfiles)
 
@@ -21,7 +21,26 @@ while( limit < 9 ):
   pics.append(pic)
   #show(pic)
   limit+=1
-print(pics)
+#print(pics)
 
+show(pics[1])
 
-  
+i = 0
+pixels = []
+while(i < 9):
+  pixels.append(pics[i].getPixels())
+  i = i+1
+
+#print(pixels[1][:4])
+#pixels[1][0] = pixels[1][2]
+#print(pixels[1][:4])
+#repaint(pics[1])
+
+#pixels[1][0:20] = pixels[1][90:110]
+
+setRed(pixels[1][0],pixels[1][1000].getRed())
+setBlue(pixels[1][0],pixels[1][1000].getBlue())
+setGreen(pixels[1][0],pixels[1][1000].getGreen())
+repaint(pics[1])
+explore(pics[1])
+print(pixels[1][:4])
