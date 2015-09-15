@@ -46,6 +46,9 @@ def median(list):
   median = (len(list)/2) + 1
   return list[median]
 
+list = [1,2,3,4,5]
+
+#print(median(list))
 
 def bubbleSort(data):
   # get rgb values
@@ -71,60 +74,16 @@ def bubbleSort(data):
       data[_+1] = tempPixel
     _ = _ +1
 
-def colorSort(data):
-  temp = 0
-  for k in range(0,len(data)-1):
-    for j in range(0,len(data)-1):
-      if(data[j] > data[j+1]):
-        temp = data[j]
-        data[j] = data[j+1]
-        data[j+1] = temp
-
-def medianIndex(list):
-  median = 0
-  median = (len(list)/2)+1
-  return median
-
-def sortRGB(data):
-  #get red values for pixel data
-  redVals = []
-  for i in data:
-    redVals.append(getRed(i))
-  #get blue values for pixel data
-  blueVals = []
-  for i in data:
-    blueVals.append(getBlue(i))
-  #get green values for pixel data
-  grnVals = []
-  for i in data:
-    grnVals.append(getGreen(i))
-  
-  #sort each of them
-  colorSort(redVals)
-  colorSort(blueVals)
-  colorSort(grnVals)
-  #put them in separate lists
-  #take median of each
-  redIndex = medianIndex(redVals)
-  blueIndex = medianIndex(blueVals)
-  grnIndex = medianIndex(grnVals)
-  
-  accuratePixel =[redVals[redIndex],grnVals[grnIndex],blueVals[blueIndex]]
-  #return list of rgb
-  return accuratePixel
-  #put that rgb value into finalPic
-  
-
-  
-def getNinePixels(pics,x,y,data):
+    
+    
+def getNinePixels(pics):
   counter = 0
-  data = []
   while(counter < 9 ):
       #print("putting 9 pixels into list")
       pixel = getPixel(pics[counter],x,y)
       data.append(pixel)
       counter = counter+1 
-  return data
+return data
     
 #create new blank picture
 finalPic = makeEmptyPicture(width,height,black)
@@ -141,21 +100,24 @@ show(finalPic)
 while (x < width):  
   while(y < height):
     
-    
-    data = getNinePixels(pics,x,y,data) 
-    
+    while(counter < 9 ):
+      #print("putting 9 pixels into list")
+      pixel = getPixel(pics[counter],x,y)
+      data.append(pixel)
+      counter = counter+1 
+     
     #print(data)
     #print("Sorting")
     bubbleSort(data) #sort
-    accuratePixel = sortRGB(data)
-    #medianPixel = median(data)#put median pixel into new pixel
+  
+    medianPixel = median(data)#put median pixel into new pixel
     #print("Median Pixel: ")
     #print(medianPixel)
     
-    setRed(getPixel(finalPic,x,y),accuratePixel[0])
-    setGreen(getPixel(finalPic,x,y),accuratePixel[1])
-    setBlue(getPixel(finalPic,x,y),accuratePixel[2])
-    #repaint(finalPic)
+    setRed(getPixel(finalPic,x,y),getRed(medianPixel))
+    setGreen(getPixel(finalPic,x,y),getGreen(medianPixel))
+    setBlue(getPixel(finalPic,x,y),getBlue(medianPixel))
+    repaint(finalPic)
     
     y = y + 1
     
@@ -163,17 +125,10 @@ while (x < width):
         counter = 0
   x = x + 1
   y = 0
-  #data = []
-
-#take picture 5, add multiple of picture 5 to a list, add the final pic
-#do the filter with the duplicate  5 pictures again.
-
-#lim = 9;
-#while
-
-explore(finalPic)
-writePictureTo(finalPic,"C:\\Users\\Markus\\School\\CST 205\\projects\\proj1\\cst205_proj1\\finalpic\\finalpic.jpg")
-
+  data = []
+  
+ 
+  
 
 #while(row < x):
  # while (col < y and row < x):
