@@ -3,6 +3,7 @@
 #the pixels of the guy will always be an outlier, and then the median of those 9 pixels will be the accurate
 #pixel to put into the new picture so that the guy is erased from the frame
 import os
+from javax.swing import JButton, JFrame
 #import os.path
 path = pickAFolder()
 
@@ -120,7 +121,7 @@ def getNinePixels(pics,x,y,data):
   counter = 0
   data = []
   while(counter < 9 ):
-      #print("putting 9 pixels into list")
+     
       pixel = getPixel(pics[counter],x,y)
       data.append(pixel)
       counter = counter+1 
@@ -137,7 +138,7 @@ finalPic = makeEmptyPicture(width,height,black)
 
 data = []
 counter = 0
-show(finalPic)
+
 while (x < width):  
   while(y < height):
     
@@ -145,12 +146,11 @@ while (x < width):
     data = getNinePixels(pics,x,y,data) 
     
     #print(data)
-    #print("Sorting")
+    
     bubbleSort(data) #sort
     accuratePixel = sortRGB(data)
     #medianPixel = median(data)#put median pixel into new pixel
-    #print("Median Pixel: ")
-    #print(medianPixel)
+    
     
     setRed(getPixel(finalPic,x,y),accuratePixel[0])
     setGreen(getPixel(finalPic,x,y),accuratePixel[1])
@@ -165,33 +165,9 @@ while (x < width):
   y = 0
   #data = []
 
-#take picture 5, add multiple of picture 5 to a list, add the final pic
-#do the filter with the duplicate  5 pictures again.
-
-#lim = 9;
-#while
-
 explore(finalPic)
 writePictureTo(finalPic,"C:\\Users\\Markus\\School\\CST 205\\projects\\proj1\\cst205_proj1\\finalpic\\finalpic.jpg")
 
 
-#while(row < x):
- # while (col < y and row < x):
-  #  pixel = getPixel(pics[0],row,col)
-   # if (pixel.getBlue() < 50):
-    #  setBlue(pixel,0)
-    #col = col + 1
-    
-  #row = row + 1
-  
-      
-#explore(pics[0])
-
-#print(pixels[1][:4])
-#pixels[1][0] = pixels[1][2]
-#print(pixels[1][:4])
-#repaint(pics[1])
-
-#pixels[1][0:20] = pixels[1][90:110]
 
 
