@@ -5,47 +5,14 @@
 import os
 from javax.swing import JButton, JFrame
 #import os.path
-path = pickAFolder()
-
-#numfiles = len([f for f in os.listdir(path)#find reference link from stack overflow
-               # if os.path.isfile(os.path.join(path,f))])
-#print(numfiles)
-
-image_paths = os.listdir(path)
-
-print(image_paths)
-
-mypicture = image_paths[0]
-
-pic = makePicture(path + "\\" + image_paths[0])
-
-#show(pic)
-pics = []
-limit = 0
-while( limit < 9 ):
-  pic = makePicture(path + "\\" + image_paths[limit])
-  pics.append(pic)
-  #show(pic)
-  limit+=1
-#print(pics)
-
-#show(pics[1])
-
-i = 0
-pixels = []
-while(i < 9):
-  pixels.append(pics[i].getPixels())
-  i = i+1
-x = 0
-y = 0;
-height = pics[0].getHeight()
-width = pics[0].getWidth()
-counter = 0;
 
 def median(list):
   median = 0
   median = (len(list)/2) + 1
   return list[median]
+
+
+
 
 
 def bubbleSort(data):
@@ -89,17 +56,14 @@ def medianIndex(list):
 def sortRGB(data):
   #get red values for pixel data
   redVals = []
+  blueVals = []
+  grnVals = []
+  
   for i in data:
     redVals.append(getRed(i))
-  #get blue values for pixel data
-  blueVals = []
-  for i in data:
     blueVals.append(getBlue(i))
-  #get green values for pixel data
-  grnVals = []
-  for i in data:
     grnVals.append(getGreen(i))
-  
+ 
   #sort each of them
   colorSort(redVals)
   colorSort(blueVals)
@@ -126,47 +90,162 @@ def getNinePixels(pics,x,y,data):
       data.append(pixel)
       counter = counter+1 
   return data
-    
-#create new blank picture
-finalPic = makeEmptyPicture(width,height,black)
 
-#loop pseudo code
-#take all 9 pixels at picture at particular x,y
-#sort
-#take the pixel at median index
-#set pixel at x,y on new blank picture to rgb values of median pixel
 
-data = []
-counter = 0
+def main():
+  print("It seems that you want to filter some pictures")
+  print("Choose an option: ")
+  print("1. Median Filter")
+  print("2. Average Filter (less quality)")
+  
+  choice = input("What do you choose?: ")
+  
+  if(choice == 1):
+    print("Here we go!")
+    median()
+  else:
+    print("Here we go! But it probably won't look as nice as Median...")
+    average()
+#median function
 
-while (x < width):  
-  while(y < height):
-    
-    
-    data = getNinePixels(pics,x,y,data) 
-    
-    #print(data)
-    
-    bubbleSort(data) #sort
-    accuratePixel = sortRGB(data)
-    #medianPixel = median(data)#put median pixel into new pixel
-    
-    
-    setRed(getPixel(finalPic,x,y),accuratePixel[0])
-    setGreen(getPixel(finalPic,x,y),accuratePixel[1])
-    setBlue(getPixel(finalPic,x,y),accuratePixel[2])
-    #repaint(finalPic)
-    
-    y = y + 1
-    
-    if(counter >= 8):
-        counter = 0
-  x = x + 1
-  y = 0
-  #data = []
+#average rgb values
+def avgRGB(data):
+  redVals = []
+  blueVals = []
+  grnVals = []
+  
+  redSum = 0
+  blueSum = 0
+  grnSum = 0
+  
+  for i in data:
+    redVals.append(getRed(i))
+    blueVals.append(getBlue(i))
+    grnVals.append(getGreen(i))
+  for k in range(0,9):
+    redSum = redSum + redVals[k]
+    blueSum = blueSum + blueVals[k]
+    grnSum = grnSum + grnVals[k]
+  redSum = redSum / 9
+  blueSum = blueSum / 9
+  grnSum = grnSum / 9
+  
+  avgPixel = []
+  avgPixel.append(redSum)
+  avgPixel.append(grnSum)
+  avgPixel.append(blueSum)
+  return avgPixel
+  
 
-explore(finalPic)
-writePictureTo(finalPic,"C:\\Users\\Markus\\School\\CST 205\\projects\\proj1\\cst205_proj1\\finalpic\\finalpic.jpg")
+#average function
+def average():
+  path = pickAFolder()
+  image_paths = os.listdir(path)
+  pics = []
+  for limit in range(0,9):
+    pic = makePicture(path + "\\" + image_paths[limit])
+    pics.append(pic)
+  pixels = []
+
+  for i in range(0,9):
+    pixels.append(pics[i].getPixels())
+  height = pics[0].getHeight()
+  width = pics[0].getWidth()
+   #create new blank picture
+  finalPic = makeEmptyPicture(width,height,black)
+  data = []
+
+  for x in range(0,width):
+    for y in range(0,height):
+      data = getNinePixels(pics,x,y,data)
+      #print(data)
+      #bubbleSort(data) #sort
+      avgPixel = avgRGB(data)
+      #medianPixel = median(data)#put median pixel into new pixel
+      setRed(getPixel(finalPic,x,y),avgPixel[0])
+      setGreen(getPixel(finalPic,x,y),avgPixel[1])
+      setBlue(getPixel(finalPic,x,y),avgPixel[2])
+      #repaint(finalPic)
+
+  explore(finalPic)
+  path = pickAFolder()
+  writePictureTo(finalPic , path + "finalpic_avg.jpg")
+  print("Check out the picture, it should be in this directory: ",path)
+
+def median():
+  path = pickAFolder()
+  image_paths = os.listdir(path)
+
+  print(image_paths)
+
+  mypicture = image_paths[0]
+
+  pic = makePicture(path + "\\" + image_paths[0])
+
+  #show(pic)
+  pics = []
+  #limit = 0
+  
+  for limit in range(0,9):
+    pic = makePicture(path + "\\" + image_paths[limit])
+    pics.append(pic)
+  
+ 
+  #i = 0
+  pixels = []
+
+  for i in range(0,9):
+    pixels.append(pics[i].getPixels())
+
+  height = pics[0].getHeight()
+  width = pics[0].getWidth()
+ 
+  #create new blank picture
+  finalPic = makeEmptyPicture(width,height,black)
+
+  #loop pseudo code
+  #take all 9 pixels at picture at particular x,y
+  #sort
+  #take the pixel at median index
+  #set pixel at x,y on new blank picture to rgb values of median pixel
+
+  data = []
+
+  for x in range(0,width):
+    for y in range(0,height):
+      data = getNinePixels(pics,x,y,data)
+      #print(data)
+      bubbleSort(data) #sort
+      accuratePixel = sortRGB(data)
+      #medianPixel = median(data)#put median pixel into new pixel
+      setRed(getPixel(finalPic,x,y),accuratePixel[0])
+      setGreen(getPixel(finalPic,x,y),accuratePixel[1])
+      setBlue(getPixel(finalPic,x,y),accuratePixel[2])
+      #repaint(finalPic)
+
+  explore(finalPic)
+  path = pickAFolder()
+  writePictureTo(finalPic , path + "finalpic_median.jpg")
+  print("Check out the picture, it should be in this directory: ",path)
+  #while (x < width):  
+   # while(y < height):
+  #    data = getNinePixels(pics,x,y,data) 
+  #    #print(data)
+  #    bubbleSort(data) #sort
+  #    accuratePixel = sortRGB(data)
+  #medianPixel = median(data)#put median pixel into new pixel
+  #    setRed(getPixel(finalPic,x,y),accuratePixel[0])
+  #    setGreen(getPixel(finalPic,x,y),accuratePixel[1])
+  #    setBlue(getPixel(finalPic,x,y),accuratePixel[2])
+  #repaint(finalPic)
+  #    y = y + 1
+  #    if(counter >= 8):
+  #        counter = 0
+  #  x = x + 1
+  #  y = 0
+    #data = []
+
+main()
 
 
 
