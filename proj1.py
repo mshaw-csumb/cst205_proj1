@@ -1,3 +1,6 @@
+
+#Markus Shaw
+
 #must use getPixel(Picture,xpos,ypos) method, will help much
 #for each point on the picture, take the 9 pixels from each picture, sort them, then take the median
 #the pixels of the guy will always be an outlier, and then the median of those 9 pixels will be the accurate
@@ -176,7 +179,7 @@ def median():
   path = pickAFolder()
   image_paths = os.listdir(path)
 
-  print(image_paths)
+  #print(image_paths)
 
   mypicture = image_paths[0]
 
